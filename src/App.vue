@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <Navbar @searchProducts="searchProducts" :cart="cart" :subtotalCart="subtotalCart" />
-    <v-content>
+    <v-main>
       <router-view :products="filteredProducts" @addCart="addCart"></router-view>
-    </v-content>
+    </v-main>
     <Footer v-if="pageLoaded" />
   </v-app>
 </template>
