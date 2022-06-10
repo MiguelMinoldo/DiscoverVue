@@ -54,7 +54,7 @@ export default {
     });
 
     setTimeout(() => {
-      tihs.pageLoaded - true
+      this.pageLoaded - true
     }, 2000);
   },
   methods: {
