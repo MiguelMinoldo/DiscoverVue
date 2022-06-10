@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import Navbar from './components/Navbar.vue';
 import Footer from './components/Footer.vue';
 
@@ -25,6 +26,23 @@ export default {
   components: {
     Navbar,
     Footer
+  },
+  computed: {
+    subtotalCart: function() {
+      let sum = 0
+      this.cart.map(p => {
+        sum += parseInt(p.price) * p.quantity;
+      });
+
+      return sum;
+    },
+    filteredProducts: function() {
+      return this.products
+        ? this.products.filter(p =>
+            p.name.toLowerCase().match(this.searchQuery.toLowerCase())
+          )
+        : this.products;
+    }
   },
   mounted: function() {
     this.cart = localStorage.getItem("cart")
