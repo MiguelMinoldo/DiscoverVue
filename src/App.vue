@@ -1,20 +1,20 @@
 <template>
   <v-app>
-    <Navbar @searchProducts = "searchProducts" :cart="cart" :subtotalCart="subtotalCart" />
-    <v-contene>
-      <router-view :products="filteredProducts" @addCart = "addCart"></router-view>
-    </v-contene>
+    <Navbar @searchProducts="searchProducts" :cart="cart" :subtotalCart="subtotalCart" />
+    <v-content>
+      <router-view :products="filteredProducts" @addCart="addCart"></router-view>
+    </v-content>
     <Footer v-if="pageLoaded" />
   </v-app>
 </template>
 
 <script>
 import axios from "axios";
-import Navbar from './components/Navbar.vue';
-import Footer from './components/Footer.vue';
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 export default {
-  name: 'App',
+  name: "App",
   data: () => {
     return {
       pageLoaded: false,
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     subtotalCart: function() {
-      let sum = 0
+      let sum = 0;
       this.cart.map(p => {
         sum += parseInt(p.price) * p.quantity;
       });
@@ -53,17 +53,15 @@ export default {
       this.products = res.data;
     });
 
-    setTimeout(() => {
-      this.pageLoaded - true
-    }, 2000);
+    setTimeout(() => (this.pageLoaded = true), 2000);
   },
   methods: {
-    searchproducts: function(query) {
+    searchProducts: function(query) {
       this.searchQuery = query;
     },
     addCart: function(products) {
-    this.cart = products;
-    localStorage.setItem("cart", JSON.stringify(products));
+      this.cart = products;
+      localStorage.setItem("cart", JSON.stringify(products));
     }
   }
 };
