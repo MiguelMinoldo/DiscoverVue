@@ -11,6 +11,7 @@
       single-line
       v-model="searchQuery"
       class="d-none d-sm-flex"
+      @keyup.enter="updateResults"
     ></v-text-field>
     <v-spacer></v-spacer>
     <v-menu offset-y :close-on-content-click="false" min-width="370px" max-height="500px">
@@ -29,7 +30,7 @@
         <v-list v-if="cart.length>0">
           <v-list-item v-for="(product, index) in cart" :key="index">
             <v-list-item-avatar>
-              <img :src="product.image" :alt="product.image_title" />
+              <img :src="product.image_url" :alt="product.image_title" />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-col cols="8">
@@ -112,9 +113,6 @@ export default {
     };
   },
   watch: {
-    searchQuery: function() {
-      this.$emit("searchProducts", this.searchQuery);
-    },
     loadingCheckoutBtn: function() {
       setTimeout(() => {
         this.loadingCheckoutBtn = false;
@@ -124,6 +122,9 @@ export default {
     }
   },
   methods: {
+    updateResults: function() {
+      this.$emit("searchProducts", this.searchQuery);
+    },
     removeCart: function(index) {
       this.cart.splice(index, 1);
       localStorage.setItem("cart", JSON.stringify(this.cart));

@@ -1,5 +1,6 @@
 <template>
   <div class="container mx-auto">
+    <h2>Search Results</h2>
     <v-container fluid>
       <v-row dense>
         <v-col v-for="item in products" :key="item.id" cols="12" xs="6" sm="4" md="3" lg="2">
@@ -12,7 +13,9 @@
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-            <v-img :src="item.image" class="white--text align-end" height="200px"></v-img>
+            <a @click="trackProductClick(item)">
+              <v-img :src="item.image_url" class="white--text align-end" height="200px"></v-img>
+            </a>
             <v-card-actions>
               <v-chip class="mr-2" color="red lighten-1" dark>
                 <v-icon left small>euro_symbol</v-icon>
@@ -69,6 +72,9 @@
 </template>
 
 <script>
+import { trackAddToCartEvent, trackProductClickedEvent } from '@sitecore-discover/data';
+import { PageController } from '@sitecore-discover/core';
+
 export default {
   name: "Products",
   props: ["products"],
@@ -140,11 +146,18 @@ export default {
         this.cart.splice(indexProduct, 1);
         tempProduct.quantity++;
         this.cart.push(tempProduct);
+        PageController.getContext().setPageUri(tempProduct.url)
+        trackAddToCartEvent([tempProduct], "pdp", PageController.getContext().toJson())
       } else {
         item.quantity = 1;
         this.cart.push(item);
+        PageController.getContext().setPageUri(item.url)
+        trackAddToCartEvent([item], "pdp", PageController.getContext().toJson())
       }
       this.productAddedMessage();
+    },
+    trackProductClick: function(item) {
+      trackProductClickedEvent("rfkid_222", item.sku, 1, { feature: 'rw'}, PageController.getContext().toJson());
     }
   }
 };
