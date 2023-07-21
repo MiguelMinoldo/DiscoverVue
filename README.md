@@ -11,6 +11,8 @@ https://miguelminoldo.fr/2023/07/12/intro-sitecore-discover-part-1/
 ## Demo Link
 https://discover-vue.vercel.app/#/
 
+![Discover - Vue.js Store](./vuestore.png)
+
 ## Installation
 1. `git clone https://github.com/MiguelMinoldo/DiscoverVue.git`
 2. `cd DiscoverVue`
